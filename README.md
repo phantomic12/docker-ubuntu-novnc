@@ -4,6 +4,8 @@ docker-ubuntu-novnc
 
 Docker image to provide HTML5 VNC interface to access a Ubuntu 20.04 LXDE desktop environment.
 
+The source files are available on [GitHub](https://github.com/Frederic-Boulanger-UPS/docker-ubuntu-novnc)
+
 Based on the work by [Doro Wu](https://github.com/fcwu), see on [Docker](https://hub.docker.com/r/dorowu/ubuntu-desktop-lxde-vnc/)
 
 Typical usage is:
