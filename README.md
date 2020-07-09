@@ -9,7 +9,10 @@ The source files are available on [GitHub](https://github.com/Frederic-Boulanger
 Based on the work by [Doro Wu](https://github.com/fcwu), see on [Docker](https://hub.docker.com/r/dorowu/ubuntu-desktop-lxde-vnc/)
 
 Typical usage is:
+
+```
 docker run --rm -d -p 6080:80 -v $PWD:/workspace:rw -e USER=username -e PASSWORD=password -e RESOLUTION=1680x1050 --name ubuntu-novnc fredblgr/ubuntu-novnc:20.04
+```
 
 Quick Start
 -------------------------
