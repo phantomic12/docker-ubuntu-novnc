@@ -32,6 +32,9 @@ if [ "$USER" != "root" ]; then
     HOME=/home/$USER
     echo "$USER:$PASSWORD" | chpasswd
     cp -r /root/{.profile,.bashrc,.config,.gtkrc-2.0,.gtk-bookmarks} ${HOME}
+    if [ -r "/root/.novnc_setup" ]; then
+      source /root/.novnc_setup
+    fi
     chown -R $USER:$USER ${HOME}
     [ -d "/dev/snd" ] && chgrp -R adm /dev/snd
 fi
