@@ -58,6 +58,20 @@ RUN chmod +x /bin/tini
 #     && mkdir /usr/local/ffmpeg \
 #     && ln -s /usr/bin/ffmpeg /usr/local/ffmpeg/ffmpeg
 
+# Killsession app
+RUN apt-get update && apt-get install -y python3 python3-tk gcc
+COPY killsession/ /tmp/killsession
+RUN cd /tmp/killsession; \
+    gcc -o killsession killsession.c && \
+    mv killsession /usr/local/bin && \
+    chmod a=rx /usr/local/bin/killsession && \
+    chmod a+s /usr/local/bin/killsession && \
+    mv killsession.py /usr/local/bin/ && chmod a+x /usr/local/bin/killsession.py && \
+    mkdir -p /usr/local/share/pixmaps && mv killsession.png /usr/local/share/pixmaps/ && \
+    mv KillSession.desktop /usr/share/applications/ && chmod a+x /usr/share/applications/KillSession.desktop && \
+    cd /tmp && rm -r killsession
+    
+
 # python library
 COPY rootfs/usr/local/lib/web/backend/requirements.txt /tmp/
 RUN apt-get update \
@@ -71,7 +85,6 @@ RUN apt-get update \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt/* /tmp/a.txt /tmp/b.txt
-
 
 ################################################################################
 # builder

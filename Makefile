@@ -1,4 +1,4 @@
-.PHONY: build run save
+.PHONY: build check run save
 
 # Default values for variables
 REPO  ?= fredblgr/
@@ -15,7 +15,7 @@ build: $(templates)
 	
 # Test run the container
 #  the local dir will be mounted under /src
-run:
+check:
 	echo "http://localhost:6080"
 	docker run --rm \
 		-p 6080:80 \
@@ -24,6 +24,18 @@ run:
 		-e RESOLUTION=1680x1050 \
 		--name ubuntu-novnc-test \
 		$(REPO)$(NAME):$(TAG)
+
+run:
+	echo "http://localhost:6080"
+	docker run --rm -d \
+		-p 6080:80 \
+		-v ${PWD}:/workspace:rw \
+		-e USER=student -e PASSWORD=CS3ASL \
+		-e RESOLUTION=1680x1050 \
+		--name ubuntu-novnc-test \
+		$(REPO)$(NAME):$(TAG)
+	sleep 5
+	open http://localhost:6080 || xdg-open http://localhost:6080 || echo "http://localhost:6080"
 
 # Add option -e HTTP_PASSWORD=CS3ASL to control the access to the web page.
 #  -p 6081:443
