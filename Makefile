@@ -22,7 +22,7 @@ check:
 		-v ${PWD}:/workspace:rw \
 		-e USER=student -e PASSWORD=CS3ASL \
 		-e RESOLUTION=1680x1050 \
-		--name ubuntu-novnc-test \
+		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)
 
 run:
@@ -32,7 +32,7 @@ run:
 		-v ${PWD}:/workspace:rw \
 		-e USER=student -e PASSWORD=CS3ASL \
 		-e RESOLUTION=1680x1050 \
-		--name ubuntu-novnc-test \
+		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)
 	sleep 5
 	open http://localhost:6080 || xdg-open http://localhost:6080 || echo "http://localhost:6080"
