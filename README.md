@@ -14,9 +14,16 @@ Typical usage is:
 docker run --rm -d -p 6080:80 -v $PWD:/workspace:rw -e USER=username -e PASSWORD=password -e RESOLUTION=1680x1050 --name ubuntu-novnc fredblgr/ubuntu-novnc:20.04
 ```
 
+Very Quick Start
+----------------
+Run ```./startUbuntu.sh```, you will have Ubuntu 20.04 in your browser, with the current working directory mounted on /workspace. The container will be removed when it stops, so save your work in /workspace if you want to keep it.
+
+There is a ```startUbuntu.ps1``` for the PowerShell of Windows. You may have to allow the execution of scripts with the command:
+
+```Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser```.
+
 Quick Start
 -------------------------
-
 Run the docker container and access with port `6080`
 
 ```
