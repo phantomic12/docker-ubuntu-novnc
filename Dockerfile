@@ -1,12 +1,10 @@
-# Built with arch: amd64 flavor: lxde image: ubuntu:20.04
-#
 ################################################################################
 # base system
 ################################################################################
 
 FROM ubuntu:20.04 as system
 
-RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
+#RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
 
 # built-in packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -16,18 +14,13 @@ RUN apt-get update && apt-get upgrade -y && apt-get install apt-utils -y \
     && apt-get install -y --no-install-recommends --allow-unauthenticated \
         supervisor nginx sudo net-tools zenity xz-utils \
         dbus-x11 x11-utils alsa-utils \
-        mesa-utils libgl1-mesa-dri \
-    && apt-get autoclean -y \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+        mesa-utils libgl1-mesa-dri wget
+
 # install debs error if combine together
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --allow-unauthenticated \
         xvfb x11vnc \
-        vim-tiny ttf-ubuntu-font-family ttf-wqy-zenhei  \
-    && apt-get autoclean -y \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+        vim-tiny ttf-ubuntu-font-family ttf-wqy-zenhei
 
 # RUN apt-get update \
 #     && apt-get install -y gpg-agent \
@@ -39,16 +32,21 @@ RUN apt-get update \
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends --allow-unauthenticated \
-        lxde gtk2-engines-murrine gnome-themes-standard gtk2-engines-pixbuf gtk2-engines-murrine arc-theme \
-    && apt-get autoclean -y \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+        lxde gtk2-engines-murrine gnome-themes-standard gtk2-engines-pixbuf gtk2-engines-murrine arc-theme
 
+
+RUN apt-get update && apt-get install -y python3 python3-tk gcc make cmake
 
 # tini to fix subreap
-ARG TINI_VERSION=v0.18.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/tini
-RUN chmod +x /bin/tini
+ARG TINI_VERSION=v0.19.0
+RUN wget https://github.com/krallin/tini/archive/v0.19.0.tar.gz \
+ && tar zxf v0.19.0.tar.gz \
+ && export CFLAGS="-DPR_SET_CHILD_SUBREAPER=36 -DPR_GET_CHILD_SUBREAPER=37"; \
+    cd tini-0.19.0; cmake . && make && make install \
+ && cd ..; rm -r tini-0.19.0 v0.19.0.tar.gz
+
+#ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /bin/tini
+#RUN chmod +x /bin/tini
 
 # ffmpeg
 # RUN apt-get update \
@@ -59,7 +57,6 @@ RUN chmod +x /bin/tini
 #     && ln -s /usr/bin/ffmpeg /usr/local/ffmpeg/ffmpeg
 
 # Killsession app
-RUN apt-get update && apt-get install -y python3 python3-tk gcc
 COPY killsession/ /tmp/killsession
 RUN cd /tmp/killsession; \
     gcc -o killsession killsession.c && \
@@ -86,12 +83,16 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /var/cache/apt/* /tmp/a.txt /tmp/b.txt
 
+RUN apt-get autoclean -y \
+    && apt-get autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
+
 ################################################################################
 # builder
 ################################################################################
 FROM ubuntu:20.04 as builder
 
-RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
+#RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends curl ca-certificates gnupg patch
@@ -113,7 +114,6 @@ RUN cd /src/web \
     && yarn \
     && yarn build
 RUN sed -i 's#app/locale/#novnc/app/locale/#' /src/web/dist/static/novnc/app/ui.js
-
 
 
 ################################################################################
