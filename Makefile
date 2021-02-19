@@ -33,7 +33,7 @@ manifest:
 	   echo docker manifest annotate --os linux --arch $$arch $(REPO)$(NAME):$(TAG) $(REPO)$(NAME):$(TAG)-$$arch; \
 	   docker manifest annotate --os linux --arch $$arch $(REPO)$(NAME):$(TAG) $(REPO)$(NAME):$(TAG)-$$arch; \
 	 done
-	docker manifest push $(REPO)$(NAME):$(TAG) $(IMAGES)
+	docker manifest push $(REPO)$(NAME):$(TAG)
 
 # Hasardous way to build multiarchitecture images:
 # - use buildx to try to build the different images using qemu for foreign architectures
@@ -52,20 +52,20 @@ buildfat:
 check:
 	echo "http://localhost:6080"
 	docker run --rm \
-		-p 6080:80 \
-		-v ${PWD}:/workspace:rw \
-		-e USER=student -e PASSWORD=CS3ASL \
-		-e RESOLUTION=1680x1050 \
+		--publish 6080:80 \
+		--volume ${PWD}:/workspace:rw \
+		--env USER=student --env PASSWORD=CS3ASL \
+		--env RESOLUTION=1200x800 \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
 
 run:
 	echo "http://localhost:6080"
-	docker run --rm -d \
-		-p 6080:80 \
-		-v ${PWD}:/workspace:rw \
-		-e USER=student -e PASSWORD=CS3ASL \
-		-e RESOLUTION=1680x1050 \
+	docker run --rm --detach \
+		--publish 6080:80 \
+		--volume ${PWD}:/workspace:rw \
+		--env USER=student --env PASSWORD=CS3ASL \
+		--env RESOLUTION=1200x800 \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
 	sleep 5
@@ -74,9 +74,9 @@ run:
 debug:
 	echo "http://localhost:6080"
 	docker run --rm --tty --interactive \
-		-p 6080:80 \
-		-v ${PWD}:/workspace:rw \
-		-e RESOLUTION=1024x800 \
+		--publish 6080:80 \
+		--volume ${PWD}:/workspace:rw \
+		--env RESOLUTION=1200x800 \
 		--name $(NAME)-test \
 		--entrypoint "bash" \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
