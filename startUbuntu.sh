@@ -7,8 +7,8 @@ URL=http://localhost:6080
 docker run --rm -d \
 		  -p 6080:80 \
 		  -v ${PWD}:/workspace:rw \
-		  -e USER=student -e PASSWORD=CS3ASL \
-		  -e RESOLUTION=1680x1050 \
+		  -e USERNAME=`id -n -u` -e USERID=`id -u` -e PASSWORD=ubuntu \
+		  -e RESOLUTION=1400x900 \
 		  --name ${IMAGE}-run \
 		  ${REPO}${IMAGE}:${TAG}
 sleep 5

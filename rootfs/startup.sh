@@ -20,17 +20,26 @@ if [ -n "$RESOLUTION" ]; then
     sed -i "s/1024x768/$RESOLUTION/" /usr/local/bin/xvfb.sh
 fi
 
-USER=${USER:-root}
+USER=${USERNAME:-root}
 HOME=/root
 if [ "$USER" != "root" ]; then
     echo "* enable custom user: $USER"
-    useradd --create-home --shell /bin/bash --user-group --groups adm,sudo $USER
     if [ -z "$PASSWORD" ]; then
         echo "  set default password to \"ubuntu\""
         PASSWORD=ubuntu
     fi
+    UIDOPT=""
+    UIDVAL=""
+    if [ -z "$USERID" ]; then
+        echo "  user id in container may not match user id on host"
+    else
+        echo "  setting user id to $USERID"
+        UIDOPT=--uid
+        UIDVAL=$USERID
+    fi
+    useradd --create-home --skel /root --shell /bin/bash --user-group --groups adm,sudo $UIDOPT $UIDVAL --password "$PASSWORD" $USER
     HOME=/home/$USER
-    echo "$USER:$PASSWORD" | chpasswd
+#    echo "$USER:$PASSWORD" | chpasswd
     cp -r /root/{.profile,.bashrc,.config,.gtkrc-2.0,.gtk-bookmarks} ${HOME}
     if [ -r "/root/.novnc_setup" ]; then
       source /root/.novnc_setup

@@ -3,8 +3,7 @@
 docker run --rm --detach \
   --publish 6080:80 \
   --volume $PWD:/workspace:rw \
-  --env USER=student \
-  --env PASSWORD=centralesupelec \
+  --env USERNAME=`id -n -u` --env USERID=`id -u` \
   --env RESOLUTION=1200x800 \
   --name ubuntu-novnc \
   fredblgr/ubuntu-novnc:20.04

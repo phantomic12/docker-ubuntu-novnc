@@ -115,6 +115,7 @@ RUN cd /src/web \
     && yarn build
 RUN sed -i 's#app/locale/#novnc/app/locale/#' /src/web/dist/static/novnc/app/ui.js
 
+RUN apt autoremove && apt autoclean
 
 ################################################################################
 # merge

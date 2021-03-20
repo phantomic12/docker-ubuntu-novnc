@@ -12,7 +12,7 @@ Based on the work by [Doro Wu](https://github.com/fcwu), see on [Docker](https:/
 Typical usage is:
 
 ```
-docker run --rm -d -p 6080:80 -v $PWD:/workspace:rw -e USER=username -e PASSWORD=password -e RESOLUTION=1680x1050 --name ubuntu-novnc fredblgr/ubuntu-novnc:20.04
+docker run --rm -d -p 6080:80 -v $PWD:/workspace:rw -e USERNAME=username -e USERID=userid -e RESOLUTION=1680x1050 --name ubuntu-novnc fredblgr/ubuntu-novnc:20.04
 ```
 
 Very Quick Start
@@ -88,11 +88,14 @@ docker run -p 6080:80 -e RESOLUTION=1920x1080 fredblgr/ubuntu-novnc:20.04
 Default Desktop User
 --------------------
 
-The default user is `root`. You may change the user and password respectively by `USER` and `PASSWORD` environment variable, for example,
+The default user is `root`. You may change the user and password respectively by `USERNAME`, `USERID` and `PASSWORD` environment variables, for example,
 
 ```
-docker run -p 6080:80 -e USER=name -e PASSWORD=password fredblgr/ubuntu-novnc:20.04
+docker run -p 6080:80 -e USERNAME=`id -n -u` -e USERID=`id -u` -e PASSWORD=password fredblgr/ubuntu-novnc:20.04
 ```
+
+This way, you will have the same name and uid in the container as on the host machine, which is very convenient when you mount a directory in the container using ```--volume```.
+
 
 Deploy to a subdirectory (relative url root)
 --------------------------------------------

@@ -35,6 +35,9 @@ manifest:
 	 done
 	docker manifest push $(REPO)$(NAME):$(TAG)
 
+rmmanifest:
+	docker manifest rm $(REPO)$(NAME):$(TAG)
+
 # Hasardous way to build multiarchitecture images:
 # - use buildx to try to build the different images using qemu for foreign architectures
 # This fails with some images because of the emulation of foreign architectures
@@ -64,7 +67,18 @@ run:
 	docker run --rm --detach \
 		--publish 6080:80 \
 		--volume ${PWD}:/workspace:rw \
-		--env USER=student --env PASSWORD=CS3ASL \
+		--env USERNAME=`id -n -u` --env USERID=`id -u` \
+		--env RESOLUTION=1200x800 \
+		--name $(NAME)-test \
+		$(REPO)$(NAME):$(TAG)-$(ARCH)
+	sleep 5
+	open http://localhost:6080 || xdg-open http://localhost:6080 || echo "http://localhost:6080"
+
+runasroot:
+	echo "http://localhost:6080"
+	docker run --rm --detach \
+		--publish 6080:80 \
+		--volume ${PWD}:/workspace:rw \
 		--env RESOLUTION=1200x800 \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
