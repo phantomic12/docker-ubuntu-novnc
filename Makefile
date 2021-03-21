@@ -5,7 +5,7 @@ REPO  ?= fredblgr/
 NAME  ?= ubuntu-novnc
 TAG   ?= 20.04
 ARCH  := $$(arch=$$(uname -m); if [[ $$arch == "x86_64" ]]; then echo amd64; else echo $$arch; fi)
-
+RESOL   = 1440x900
 ARCHS = amd64 arm64
 IMAGES := $(ARCHS:%=$(REPO)$(NAME):$(TAG)-%)
 PLATFORMS := $$(first="True"; for a in $(ARCHS); do if [[ $$first == "True" ]]; then printf "linux/%s" $$a; first="False"; else printf ",linux/%s" $$a; fi; done)
@@ -58,7 +58,7 @@ check:
 		--publish 6080:80 \
 		--volume ${PWD}:/workspace:rw \
 		--env USER=student --env PASSWORD=CS3ASL \
-		--env RESOLUTION=1200x800 \
+		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
 
@@ -68,7 +68,7 @@ run:
 		--publish 6080:80 \
 		--volume ${PWD}:/workspace:rw \
 		--env USERNAME=`id -n -u` --env USERID=`id -u` \
-		--env RESOLUTION=1200x800 \
+		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
 	sleep 5
@@ -79,7 +79,7 @@ runasroot:
 	docker run --rm --detach \
 		--publish 6080:80 \
 		--volume ${PWD}:/workspace:rw \
-		--env RESOLUTION=1200x800 \
+		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
 	sleep 5
@@ -90,7 +90,7 @@ debug:
 	docker run --rm --tty --interactive \
 		--publish 6080:80 \
 		--volume ${PWD}:/workspace:rw \
-		--env RESOLUTION=1200x800 \
+		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \
 		--entrypoint "bash" \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
