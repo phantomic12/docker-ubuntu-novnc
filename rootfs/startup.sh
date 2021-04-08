@@ -34,7 +34,7 @@ if [ "$USER" != "root" ]; then
         echo "  user id in container may not match user id on host"
     else
         echo "  setting user id to $USERID"
-        UIDOPT=--non-unique --uid
+        UIDOPT="--non-unique --uid"
         UIDVAL=$USERID
     fi
     useradd --create-home --skel /root --shell /bin/bash --user-group --groups adm,sudo $UIDOPT $UIDVAL --password "$PASSWORD" $USER
