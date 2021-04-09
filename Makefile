@@ -66,7 +66,7 @@ run:
 	echo "http://localhost:6080"
 	docker run --rm --detach \
 		--publish 6080:80 \
-		--volume ${PWD}:/workspace:rw \
+		--volume "${PWD}":/workspace:rw \
 		--env USERNAME=`id -n -u` --env USERID=`id -u` \
 		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \
@@ -78,7 +78,7 @@ runasroot:
 	echo "http://localhost:6080"
 	docker run --rm --detach \
 		--publish 6080:80 \
-		--volume ${PWD}:/workspace:rw \
+		--volume "${PWD}":/workspace:rw \
 		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
@@ -89,7 +89,7 @@ debug:
 	echo "http://localhost:6080"
 	docker run --rm --tty --interactive \
 		--publish 6080:80 \
-		--volume ${PWD}:/workspace:rw \
+		--volume "${PWD}":/workspace:rw \
 		--env USERNAME=`id -n -u` --env USERID=`id -u` \
 		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \

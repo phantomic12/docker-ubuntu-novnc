@@ -6,7 +6,7 @@ IMAGE=ubuntu-novnc
 TAG=20.04
 URL=http://localhost:6080
 
-if [[ -z $SUDO_UID ]]
+if [ -z "$SUDO_UID" ]
 then
   # not in sudo
   USER_ID=`id -u`
@@ -19,7 +19,7 @@ fi
 
 docker run --rm --detach \
   --publish 6080:80 \
-  --volume ${PWD}:/workspace:rw \
+  --volume "${PWD}":/workspace:rw \
   --env USERNAME=${USER_NAME} --env USERID=${USER_ID} \
   --env RESOLUTION=1400x900 \
   --name ${IMAGE} \
@@ -27,7 +27,7 @@ docker run --rm --detach \
 
 sleep 5
 
-if [[ -z $SUDO_UID ]]
+if [ -z "$SUDO_UID" ]
 then
      open -a firefox http://localhost:6080 \
   || xdg-open http://localhost:6080 \
@@ -37,14 +37,3 @@ else
   || su ${USER_NAME} -c 'xdg-open http://localhost:6080' \
   || echo "Point your web browser at http://localhost:6080"
 fi
-
-# if command -v open 2>&1 /dev/null
-# then
-#   open ${URL}
-# elif command -v xdg-open 2>&1 /dev/null
-# then
-#   xdg-open "${URL}"
-# else
-#   echo "# Point your browser at ${URL}"
-#   echo "You may install xdg-utils so that I can do that for you."
-# fi
