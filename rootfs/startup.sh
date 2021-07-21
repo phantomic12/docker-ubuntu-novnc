@@ -28,6 +28,7 @@ if [ "$USER" != "root" ]; then
         echo "  set default password to \"ubuntu\""
         PASSWORD=ubuntu
     fi
+    echo "  Password set to $PASSWORD"
     UIDOPT=""
     UIDVAL=""
     if [ -z "$USERID" ]; then
@@ -37,9 +38,9 @@ if [ "$USER" != "root" ]; then
         UIDOPT="--non-unique --uid"
         UIDVAL=$USERID
     fi
-    useradd --create-home --skel /root --shell /bin/bash --user-group --groups adm,sudo $UIDOPT $UIDVAL --password "$PASSWORD" $USER
+    useradd --create-home --skel /root --shell /bin/bash --user-group --groups adm,sudo $UIDOPT $UIDVAL $USER
     HOME=/home/$USER
-#    echo "$USER:$PASSWORD" | chpasswd
+    echo "$USER:$PASSWORD" | chpasswd
     cp -r /root/{.profile,.bashrc,.config,.gtkrc-2.0,.gtk-bookmarks} ${HOME}
     if [ -r "/root/.novnc_setup" ]; then
       source /root/.novnc_setup
