@@ -3,9 +3,13 @@
 if [ -n "$VNC_PASSWORD" ]; then
     echo -n "$VNC_PASSWORD" > /.password1
     x11vnc -storepasswd $(cat /.password1) /.password2
-    chmod 400 /.password*
     sed -i 's/^command=x11vnc.*/& -rfbauth \/.password2/' /etc/supervisor/conf.d/supervisord.conf
+#    echo -n "$VNC_PASSWORD" | vncpasswd -f > /.passwordvnc
+    chmod 400 /.password*
     export VNC_PASSWORD=
+# else
+#     echo -n "ubuntu" | vncpasswd -f > /.passwordvnc
+#     chmod 400 /.passwordvnc
 fi
 
 if [ -n "$X11VNC_ARGS" ]; then
