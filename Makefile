@@ -14,12 +14,15 @@ PLATFORMS := $$(first="True"; for a in $(ARCHS); do if [[ $$first == "True" ]]; 
 templates = Dockerfile rootfs/etc/supervisor/conf.d/supervisord.conf
 
 # Rebuild the container image and remove intermediary images
-build: $(templates)
+build: $(templates) yarnpkg_pubkey.gpg
 	docker build --tag $(REPO)$(NAME):$(TAG)-$(ARCH) .
 	@danglingimages=$$(docker images --filter "dangling=true" -q); \
 	if [[ $$danglingimages != "" ]]; then \
 	  docker rmi $$(docker images --filter "dangling=true" -q); \
 	fi
+
+yarnpkg_pubkey.gpg :
+	wget --output-document=yarnpkg_pubkey.gpg https://dl.yarnpkg.com/debian/pubkey.gpg
 
 # Safe way to build multiarchitecture images:
 # - build each image on the matching hardware, with the -$(ARCH) tag
