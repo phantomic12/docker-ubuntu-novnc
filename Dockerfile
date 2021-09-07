@@ -59,6 +59,9 @@ RUN wget https://github.com/krallin/tini/archive/v0.19.0.tar.gz \
 #     && mkdir /usr/local/ffmpeg \
 #     && ln -s /usr/bin/ffmpeg /usr/local/ffmpeg/ffmpeg
 
+# NextCloud
+RUN apt-get update && apt-get install -y nextcloud-desktop
+
 # Killsession app
 COPY killsession/ /tmp/killsession
 RUN cd /tmp/killsession; \
