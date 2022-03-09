@@ -6,8 +6,13 @@ FROM ubuntu:20.04 as system
 
 #RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
 
-# built-in packages
+# Avoid prompts for time zone
 ENV DEBIAN_FRONTEND noninteractive
+ENV TZ=Europe/Paris
+# Fix issue with libGL on Windows
+ENV LIBGL_ALWAYS_INDIRECT=1
+
+# built-in packages
 RUN apt-get update && apt-get upgrade -y && apt-get install apt-utils -y \
     && apt-get install -y --no-install-recommends software-properties-common curl apache2-utils \
     && apt-get update \

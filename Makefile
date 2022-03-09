@@ -21,6 +21,13 @@ build: $(templates) yarnpkg_pubkey.gpg
 	  docker rmi $$(docker images --filter "dangling=true" -q); \
 	fi
 
+from-scratch: $(templates) yarnpkg_pubkey.gpg
+	docker build --no-cache --pull --tag $(REPO)$(NAME):$(TAG)-$(ARCH) .
+	@danglingimages=$$(docker images --filter "dangling=true" -q); \
+	if [[ $$danglingimages != "" ]]; then \
+	  docker rmi $$(docker images --filter "dangling=true" -q); \
+	fi
+
 yarnpkg_pubkey.gpg :
 	wget --output-document=yarnpkg_pubkey.gpg https://dl.yarnpkg.com/debian/pubkey.gpg
 
@@ -71,11 +78,12 @@ run:
 		--publish 6080:80 \
 		--volume "${PWD}":/workspace:rw \
 		--env USERNAME=`id -n -u` --env USERID=`id -u` \
-		--env "RESOLUTION=$(RESOL)" \
 		--name $(NAME)-test \
 		$(REPO)$(NAME):$(TAG)-$(ARCH)
 	sleep 5
 	open http://localhost:6080 || xdg-open http://localhost:6080 || echo "http://localhost:6080"
+
+#		--env "RESOLUTION=$(RESOL)" \
 
 runasroot:
 	echo "http://localhost:6080"
