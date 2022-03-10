@@ -67,6 +67,9 @@ RUN wget https://github.com/krallin/tini/archive/v0.19.0.tar.gz \
 # NextCloud
 RUN apt-get update && apt-get install -y nextcloud-desktop
 
+# Firefox
+RUN apt-get update && apt-get install -y firefox
+
 # Killsession app
 COPY killsession/ /tmp/killsession
 RUN cd /tmp/killsession; \
