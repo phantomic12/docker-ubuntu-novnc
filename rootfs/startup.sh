@@ -85,6 +85,14 @@ if [ -n "$RELATIVE_URL_ROOT" ]; then
 	sed -i 's|_RELATIVE_URL_ROOT_|'$RELATIVE_URL_ROOT'|' /etc/nginx/sites-enabled/default
 fi
 
+# Check for files in /etc/startup/ that should be sourced
+# to customize the Docker image
+for stsrc in /etc/startup/*.sh; do
+  if [ -r $stsrc ]; then
+  	source $stsrc
+  fi
+done
+
 # clearup
 PASSWORD=
 HTTP_PASSWORD=
