@@ -108,6 +108,14 @@ docker run -p 6080:80 -e RELATIVE_URL_ROOT=some-prefix fredblgr/ubuntu-novnc:20.
 
 NOTE: this variable should not have any leading and trailing slash (/)
 
+Use as a base image
+-------------------
+You may use this image as a base image to benefit from the GUI in a web browser, and install additional software.
+You can customize the startup process of the container by adding shell scripts to the ```/etc/startup/``` folder. Any readable file with extension ```.sh``` placed in this folder will be sourced at this end of the startup process. You may use the following variables in your script:
+* ```$USER``` is the user name of the user connected to the session
+* ```$HOME``` is the home directory of that user
+* ```$RESOLUTION```, if defined, is the resolution of the display, in the form ```<width>x<height>``` in pixels.
+
 
 License
 ==================
