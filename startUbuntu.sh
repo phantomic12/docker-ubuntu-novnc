@@ -1,7 +1,7 @@
 #!/bin/sh
 # Ubuntu 20.04LTS headless noVNC
 # Connect to http://localhost:6080/
-REPO=fredblgr/
+REPO=phantomic/
 IMAGE=ubuntu-novnc
 TAG=20.04
 URL=http://localhost:6080
