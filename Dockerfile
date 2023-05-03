@@ -2,7 +2,7 @@
 # base system
 ################################################################################
 
-FROM ubuntu:22.04 as system
+FROM ubuntu:20.04 as system
 
 #RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#mirror://mirrors.ubuntu.com/mirrors.txt#' /etc/apt/sources.list;
 
