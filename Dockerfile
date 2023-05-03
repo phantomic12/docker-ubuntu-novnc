@@ -71,7 +71,7 @@ RUN apt-get update && apt-get install -y nextcloud-desktop qbittorrent
 RUN apt-get update && apt-get install -y firefox libpci3 rclone
 
 # Heroku CLI
-curl https://cli-assets.heroku.com/install.sh | sh
+RUN curl https://cli-assets.heroku.com/install.sh | sh
 
 # 
 
