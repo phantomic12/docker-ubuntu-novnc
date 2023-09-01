@@ -64,8 +64,8 @@ RUN wget https://github.com/krallin/tini/archive/v0.19.0.tar.gz \
 #     && mkdir /usr/local/ffmpeg \
 #     && ln -s /usr/bin/ffmpeg /usr/local/ffmpeg/ffmpeg
 
-# NextCloud and qBittorrent
-RUN apt-get update && apt-get install -y nextcloud-desktop qbittorrent
+# NextCloud and qBittorrent and sysmon
+RUN apt-get update && apt-get install -y nextcloud-desktop qbittorrent gnome-system-monitor neofetch
 
 # Firefox and Rclone
 RUN apt-get update && apt-get install -y firefox libpci3 rclone
