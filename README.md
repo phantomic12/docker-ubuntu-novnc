@@ -12,7 +12,7 @@ Based on the work by [Doro Wu](https://github.com/fcwu), see on [Docker](https:/
 Typical usage is:
 
 ```
-docker run --rm -d -p 6080:80 -v $PWD:/workspace:rw -e USERNAME=username -e USERID=userid -e RESOLUTION=1680x1050 --name ubuntu-novnc fredblgr/ubuntu-novnc:20.04
+docker run --rm -d -p 6080:80 -v $PWD:/workspace:rw -e USERNAME=username -e USERID=userid -e RESOLUTION=1680x1050 --name ubuntu-novnc phantomic/docker-ubuntu-novnc:latest
 ```
 
 Very Quick Start
