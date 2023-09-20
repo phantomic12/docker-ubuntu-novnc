@@ -25,10 +25,10 @@ There is a ```startUbuntu.ps1``` for the PowerShell of Windows. You may have to 
 
 Quick Start
 -------------------------
-Run the docker container and access with port `6080`
+Run the docker container and access with port `8080`
 
 ```
-docker run -p 6080:80 phantomic/docker-ubuntu-novnc:latest
+docker run -p 8080:80 phantomic/docker-ubuntu-novnc:latest
 ```
 
 Browse http://127.0.0.1:6080/
