@@ -68,7 +68,8 @@ RUN wget https://github.com/krallin/tini/archive/v0.19.0.tar.gz \
 RUN apt-get update && apt-get install -y nextcloud-desktop qbittorrent gnome-system-monitor neofetch
 
 # Firefox and Rclone
-RUN apt-get update && apt-get install -y firefox libpci3 rclone && rclone selfupdate
+RUN apt-get update && apt-get install -y firefox libpci3 rclone
+RUN rclone selfupdate
 
 # librewolf and orenjdk 17
 RUN distro=$(if echo " una bookworm vanessa focal jammy bullseye vera uma " | grep -q " $(lsb_release -sc) "; then lsb_release -sc; else echo focal; fi)
