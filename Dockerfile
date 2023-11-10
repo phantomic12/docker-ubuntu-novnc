@@ -71,7 +71,6 @@ RUN apt-get update && apt-get install -y nextcloud-desktop qbittorrent gnome-sys
 RUN apt-get update && apt-get install -y firefox libpci3 rclone && rclone selfupdate
 
 # librewolf
-distro=$(if echo " bullseye focal impish uma una " | grep -q " $(lsb_release -sc) "; then echo $(lsb_release -sc); else echo focal; fi)
 echo "deb [arch=amd64] http://deb.librewolf.net $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/librewolf.list
 apt-get update && apt-get install librewolf -y
 
