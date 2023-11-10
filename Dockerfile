@@ -70,9 +70,11 @@ RUN apt-get update && apt-get install -y nextcloud-desktop qbittorrent gnome-sys
 # Firefox and Rclone
 RUN apt-get update && apt-get install -y firefox libpci3 rclone && rclone selfupdate
 
-# librewolf
-echo "deb [arch=amd64] http://deb.librewolf.net $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/librewolf.list
-apt-get update && apt-get install librewolf -y
+# librewolf and orenjdk 17
+RUN distro=$(if echo " una bookworm vanessa focal jammy bullseye vera uma " | grep -q " $(lsb_release -sc) "; then lsb_release -sc; else echo focal; fi)
+RUN echo "deb [arch=amd64] http://deb.librewolf.net $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/librewolf.list
+RUN wget https://deb.librewolf.net/keyring.gpg -O /etc/apt/trusted.gpg.d/librewolf.gpg
+RUN apt-get update && apt-get install librewolf openjdk-17-jre-headless -y
 
 
 # Heroku CLI
