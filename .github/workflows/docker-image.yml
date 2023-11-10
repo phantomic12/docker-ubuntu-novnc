@@ -3,7 +3,7 @@ name: ci
 on:  # yamllint disable-line rule:truthy
   push:
     branches:
-      - main
+      - master
   pull_request:
   schedule:
     - cron: "37 13 */4 * *"
