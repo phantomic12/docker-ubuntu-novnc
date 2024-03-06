@@ -80,7 +80,8 @@ RUN apt-get update && apt-get install librewolf openjdk-17-jre-headless -y
 # Heroku CLI
 RUN curl https://cli-assets.heroku.com/install.sh | sh
 
-# 
+# Telegram Desktop
+RUN apt-get -y install telegram-desktop
 
 # Killsession app
 COPY killsession/ /tmp/killsession
